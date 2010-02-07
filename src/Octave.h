@@ -26,6 +26,12 @@ class Octave
     // Crea el proceso hijo con Octave corriendo en él.
     Octave(); 
 
+    // Destructor
+    //
+    // Se encarga de limpiar todo, en especial salirse de Octave y no dejarlo
+    // como un proceso zombie.
+    ~Octave();
+
     // Send
     //
     // Envía un comando a Octave y se bloquea hasta obtener una respuesta,

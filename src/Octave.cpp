@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <cstdio>
 #include <unistd.h>
 #include <string.h>
 
@@ -33,6 +34,11 @@ Octave::Octave()
     }
 }
 
+Octave::~Octave()
+{
+    send("exit\n");
+}
+
 std::string Octave::send(const std::string& command) const
 {
     // Mandamos el comando
@@ -59,6 +65,10 @@ std::string Octave::normalize(std::string& answer) const
     // Eliminamos los espacios en blanco
     answer.erase(std::remove_if(answer.begin(), answer.end(), isspace), 
         answer.end());
+
+    if (answer.length() == 0) {
+        return "";
+    }
 
     // Eliminamos el "ans=" del principio
     return answer.substr(4, answer.length()-4);
