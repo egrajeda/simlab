@@ -23,14 +23,14 @@ USER_DIR = src
 TEST_DIR = test
 
 # Flags passed to the preprocessor.
-CPPFLAGS += -I$(GTEST_DIR) -I$(GTEST_DIR)/include -I$(USER_DIR)
+CPPFLAGS += -I$(GTEST_DIR) -I$(GTEST_DIR)/include -I$(USER_DIR) -I.
 
 # Flags passed to the C++ compiler.
 CXXFLAGS += -g -Wall -Wextra
 
 # All tests produced by this Makefile.  Remember to add new tests you
 # created to the list.
-TESTS = OctaveTest 
+TESTS = OctaveTest GrammarTest
 
 # All Google Test headers.  Usually you shouldn't change this
 # definition.
@@ -70,7 +70,7 @@ gtest_main.a : gtest-all.o gtest_main.o
 # gtest_main.a, depending on whether it defines its own main()
 # function.
 
-Octave.o : $(USER_DIR)/Octave.cpp $(USER_DIR)/Octave.h $(GTEST_HEADERS)
+Octave.o : $(USER_DIR)/Octave.cpp $(USER_DIR)/Octave.h
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/Octave.cpp
 
 OctaveTest.o : $(TEST_DIR)/OctaveTest.cpp \
@@ -78,4 +78,33 @@ OctaveTest.o : $(TEST_DIR)/OctaveTest.cpp \
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(TEST_DIR)/OctaveTest.cpp
 
 OctaveTest : Octave.o OctaveTest.o gtest_main.a
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $^ -o $@
+
+GrammarTest.o : $(TEST_DIR)/GrammarTest.cpp \
+				$(USER_DIR)/Ast.h $(GTEST_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(TEST_DIR)/GrammarTest.cpp
+
+Parser.o : Parser.cpp
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $^ 
+
+Parser.cpp : $(USER_DIR)/Parser.y $(USER_DIR)/Ast.h
+	bison -d -o $@ $(USER_DIR)/Parser.y
+
+Parser.hpp : Parser.cpp
+
+Lexer.o : Lexer.cpp
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $^
+
+Lexer.cpp : $(USER_DIR)/Lexer.l Parser.hpp
+	lex -o $@ --header-file=Lexer.h $(USER_DIR)/Lexer.l 
+
+Lexer.h : Lexer.cpp
+
+Ast.o : $(USER_DIR)/Ast.cpp $(USER_DIR)/Ast.h
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/Ast.cpp
+
+Interpreter.o : $(USER_DIR)/Interpreter.cpp $(USER_DIR)/Interpreter.h
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/Interpreter.cpp
+
+GrammarTest : GrammarTest.o Parser.o Lexer.o Ast.o Interpreter.o gtest_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $^ -o $@

@@ -1,3 +1,10 @@
 *.o
-*.a
 test/gtest
+src/Parser.*
+src/Lexer.cpp
+*.a
+Parser.*
+GrammarTest
+OctaveTest
+Lexer.cpp
+Lexer.h

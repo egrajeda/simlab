@@ -99,6 +99,11 @@ struct Ast : public AstNode
 
   public:
     Ast(AstExpression& expression); 
+
+    // toString
+    //
+    // Crea una representación textual de la estructura del AST.
+    std::string toString() const;
 };
 
 #endif

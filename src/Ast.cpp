@@ -1,3 +1,7 @@
+#include <iostream>
+#include <string>
+#include <sstream>
+
 #include "Ast.h"
 
 // 
@@ -16,7 +20,7 @@ inline std::ostream& operator<< (std::ostream& out, const AstNode& node)
 
 void AstExpression::printOn(std::ostream& out) const
 {
-    out << "EXPRESSION[]";
+    out << "[(E)]";
 }
 
 //
@@ -28,7 +32,7 @@ AstInteger::AstInteger(int value) : m_value(value)
 
 void AstInteger::printOn(std::ostream& out) const
 {
-    out << "INTEGER[" << m_value << "]";
+    out << "[(1)" << m_value << "]";
 }
 
 // 
@@ -40,7 +44,7 @@ AstIdentifier::AstIdentifier(const std::string& name) : m_name(name)
 
 void AstIdentifier::printOn(std::ostream& out) const
 {
-    out << "IDENTIFIER[" << m_name << "]";
+    out << "[(I)" << m_name << "]";
 }
 
 //
@@ -54,7 +58,7 @@ AstAssignment::AstAssignment(AstIdentifier& identifier,
 
 void AstAssignment::printOn(std::ostream& out) const
 {
-    out << "ASSIGNMENT[" << m_identifier << " || " << m_expression << "]";
+    out << "[(=)" << m_identifier << "," << m_expression << "]";
 }
 
 //
@@ -67,8 +71,7 @@ AstBinaryOperator::AstBinaryOperator(AstExpression& left, char op,
 
 void AstBinaryOperator::printOn(std::ostream& out) const
 {
-    out << "BINARY_OPERATOR[" << m_left << " || " << m_operator << " || "
-        << m_right << "]";
+    out << "[(+)" << m_left << "," << m_operator << "," << m_right << "]";
 }
 
 //
@@ -81,7 +84,7 @@ AstFunctionCall::AstFunctionCall(AstIdentifier& identifier,
 
 void AstFunctionCall::printOn(std::ostream& out) const
 {
-    out << "FUNCTION_CALL[" << m_identifier << " || " << m_arguments << "]";
+    out << "[(F)" << m_identifier << "," << m_arguments << "]";
 }
 
 //
@@ -101,13 +104,13 @@ void AstArguments::add(AstExpression* expression)
 
 void AstArguments::printOn(std::ostream& out) const
 {
-    out << "ARGUMENTS[";
+    out << "[(A)";
     std::vector<AstExpression*>::const_iterator it = m_expressions.begin();
     for (it; it != m_expressions.end(); ++it) {
-        out << *(*it) << " || ";
+        out << *(*it) << ",";
     }
     if (m_expressions.size() > 0) {
-        out << "\b\b\b\b";
+        out << "\b";
     }
     out << "]";
 }
@@ -121,5 +124,12 @@ Ast::Ast(AstExpression& expression) : m_expression(expression)
 
 void Ast::printOn(std::ostream& out) const
 {
-    out << "ROOT[" << m_expression << "]";
+    out << "[" << m_expression << "]";
+}
+
+std::string Ast::toString() const
+{
+    std::stringstream out;
+    printOn(out);
+    return out.str(); 
 }
