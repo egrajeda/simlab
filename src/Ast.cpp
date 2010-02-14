@@ -115,6 +115,21 @@ void AstArguments::printOn(std::ostream& out) const
     out << "]";
 }
 
+// 
+// AstIdentifier
+//
+
+AstString::AstString(const std::string& string)
+{
+    // Quitamos las '' de la cadena
+    m_string = string.substr(1, string.length()-2);
+}
+
+void AstString::printOn(std::ostream& out) const
+{
+    out << "[(')" << m_string << "]";
+}
+
 //
 // Ast
 //

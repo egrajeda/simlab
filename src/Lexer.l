@@ -17,6 +17,7 @@ extern "C" int yywrap() { }
 [ \t\n]                         ;
 [a-zA-Z]*                       SAVE_TOKEN; return TIDENTIFIER;
 [0-9]+                          SAVE_TOKEN; return TINTEGER;
+'[^'\n]*'                       SAVE_TOKEN; return TSTRING;
 "="                             return '=';
 "+"                             return '+';
 "-"                             return '-';

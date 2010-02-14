@@ -19,7 +19,7 @@ void yyerror(const char* s) { printf("ERROR: %s\n", s); }
     std::string*          string; 
 };
 
-%token <string> TIDENTIFIER TINTEGER
+%token <string> TIDENTIFIER TINTEGER TSTRING
 
 %type <anything> input
 %type <arguments> arguments;
@@ -45,6 +45,8 @@ expression : identifier '=' expression
            | identifier 
                { $$ = $<expression>1; }
            | number
+           | TSTRING
+               { $$ = new AstString(*$1); delete $1; }
            | expression '+' expression
                { $$ = new AstBinaryOperator(*$1, '+', *$3); }
            | expression '-' expression

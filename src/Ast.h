@@ -90,7 +90,18 @@ class AstFunctionCall : public AstExpression
     AstFunctionCall(AstIdentifier& identifier, AstArguments& arguments);
 };
 
-struct Ast : public AstNode
+class AstString : public AstExpression
+{
+    std::string m_string;
+
+  protected:
+    virtual void printOn(std::ostream& out) const;
+
+  public:
+    AstString(const std::string& string);
+};
+
+class Ast : public AstNode
 {
     AstExpression& m_expression;
 
