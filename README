@@ -1,12 +1,7 @@
 SIMLAB 
 ======
 
-/English version on bottom/.
+For now, I've decided to halt this and add my ideas directly into Octave. I leave
+this online in case the flex/bison stuff that I did is helpful to someone.
 
-SIMLAB es una herramienta construida sobre programas libres como GNU Octave,
-GiNaC y gnuplot, con el motivo de presentar una interfaz similar a MATLAB.
-
-----
-
-SIMLAB is a tool built on top of GNU Octave/GiNaC/gnuplot which tries to mimic
-MATLAB behaviour.
+The continuation of all of this will be in my symbolic-hack repository.
