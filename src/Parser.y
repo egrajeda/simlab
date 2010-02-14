@@ -4,13 +4,11 @@
 #include <iostream>
 
 #include "Ast.h"
-
-using namespace std;
-
-Ast* ast;
+#include "Interpreter.h"
 
 extern int yylex();
 void yyerror(const char* s) { printf("ERROR: %s\n", s); }
+
 %}
 
 %union {
@@ -37,7 +35,7 @@ void yyerror(const char* s) { printf("ERROR: %s\n", s); }
 %%
 
 input : expression 
-          { ast = new Ast(*$1); }
+          { INTERPRETER.buildAst(*$1); }
       ;
 
 expression : identifier '=' expression 

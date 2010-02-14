@@ -1,9 +1,15 @@
 #include "Interpreter.h"
 #include "Lexer.h"
 
-extern Ast* ast;
-
 extern int yyparse();
+
+Interpreter::Interpreter() : m_ast(NULL)
+{ }
+
+Interpreter::~Interpreter() 
+{
+    delete m_ast;
+}
 
 Ast* Interpreter::parse(const std::string& input) const
 {
@@ -12,5 +18,11 @@ Ast* Interpreter::parse(const std::string& input) const
     yyparse();
     yylex_destroy();
 
-    return ast;
+    return m_ast;
+}
+
+void Interpreter::buildAst(AstExpression& expression)
+{
+    delete m_ast;
+    m_ast = new Ast(expression);
 }

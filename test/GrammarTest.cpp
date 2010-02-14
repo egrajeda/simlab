@@ -6,9 +6,7 @@
 
 TEST(GrammarTest, Integer)
 {
-    Interpreter interpreter;
-
-    EXPECT_EQ("[[(1)4]]", interpreter.parse("4")->toString());
-    EXPECT_EQ("[[(1)9]]", interpreter.parse("000009")->toString());
-    EXPECT_EQ("[[(1)-2]]", interpreter.parse("-2")->toString());
+    EXPECT_EQ("[[(1)4]]", INTERPRETER.parse("4")->toString());
+    EXPECT_EQ("[[(1)9]]", INTERPRETER.parse("000009")->toString());
+    EXPECT_EQ("[[(1)-2]]", INTERPRETER.parse("-2")->toString());
 }
