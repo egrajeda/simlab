@@ -1,0 +1,12 @@
+SIMLAB 
+======
+
+/English version on bottom/.
+
+SIMLAB es una herramienta construida sobre programas libres como GNU Octave,
+GiNaC y gnuplot, con el motivo de presentar una interfaz similar a MATLAB.
+
+----
+
+SIMLAB is a tool built on top of GNU Octave/GiNaC/gnuplot which tries to mimic
+MATLAB behaviour.
